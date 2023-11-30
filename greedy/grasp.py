@@ -136,9 +136,7 @@ def grasp(iterations,alpha):
 
     best = greedy()
     local_search(best)
-    count = 0
-    while (count != iterations):
-        count = count + 1
+    for count in range(iterations):
         s = Sol()
         i = 0
         P_remaining = set(range(nOrders)) # set of indices of remaining profits to consider
@@ -169,9 +167,9 @@ def grasp(iterations,alpha):
             best = s.copy()
 
         # Print or use the resulting set S from the best solution
-        print("GRASP: Resulting set S:", best.S)
-        print("GRASP: Profit", best.profit)
-        print("GRASP: Used capacities", best.used_capacities)
+        print("GRASP", count,": Resulting set S:", best.S)
+        print("GRASP", count,": Profit", best.profit)
+        print("GRASP", count,": Used capacities", best.used_capacities)
 
 
     # Print or use the resulting set S from the best solution
