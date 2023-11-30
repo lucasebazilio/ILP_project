@@ -24,14 +24,15 @@ def compute_values(nOrders, nSlots):
     if not os.path.exists(instances_folder):
         os.makedirs(instances_folder)
 
-    file_name = f'instance_n{nOrders}_t{nSlots}.txt'
+    file_name = f'instance_n{nOrders}_t{nSlots}.dat'
     file_path = os.path.join(instances_folder, file_name)
     
     generate_instance(file_path, nOrders, nSlots, p, l, c, mindi, maxdi, maxsur)
 
 def generate_massive(N):
     for i in range(N):
-        compute_values(10*i, 10*i)
+        compute_values(100*i, 100*i)
 
 if __name__ == "__main__":
+    
     compute_values(4, 7)
