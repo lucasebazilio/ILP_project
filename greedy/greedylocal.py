@@ -18,7 +18,7 @@ class Sol:
     # Element is a tuple {i,f} where we insert order i with finishing time j
         self.S.add(element)
         i,f = element
-        for k in range(f - l[i]+1,f+1):
+        for k in range(f - l[i],f):
             self.used_capacities[k] += c[i]
         self.profit += p[i]
 
@@ -27,7 +27,7 @@ class Sol:
         if self.exists(element):
             self.S.remove(element)
             i,f = element
-            for k in range(f-l[i]+1,f+1):
+            for k in range(f-l[i],f):
                 self.used_capacities[k] -= c[i]
             self.profit -= p[i]
 
@@ -39,10 +39,10 @@ class Sol:
 
 
     def evalSol(self,i):
-        j = mindi[i] - l[i] + 1
+        j = mindi[i] - l[i]
         k = l[i]
 
-        while j + k - 1 <= maxdi[i] and k > 0:
+        while j + k <= maxdi[i] and k > 0:
             if self.used_capacities[j] + c[i] <= maxsur:
                 j += 1
                 k -= 1
