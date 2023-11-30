@@ -140,11 +140,11 @@ def grasp(iterations,alpha):
         s = Sol()
         i = 0
         P_remaining = set(range(nOrders)) # set of indices of remaining profits to consider
-        while P_remaining:
+        while P_remaining and i<nOrders:
             RCL = set()
             p_cota = p[sorted_indices[-1]] + alpha*(p[sorted_indices[i]]-p[sorted_indices[-1]])
             j = i
-            while P_remaining and p[sorted_indices[j]] >= p_cota:
+            while P_remaining and j < nOrders and p[sorted_indices[j]] >= p_cota:
                 k,f = s.isFeasible(j)
                 #print("is FEASIBLE K,F",(k,f))
                 #print("j:",j)
@@ -153,12 +153,12 @@ def grasp(iterations,alpha):
                     j = j + 1
                 else:
                     if j in P_remaining: P_remaining.remove(j)
-                while P_remaining and not (j in P_remaining): j = j + 1
+                while P_remaining and not (j in P_remaining) and j < nOrders: j = j + 1
             if RCL:
                 m = random.choice(tuple(RCL)) # choose an element randomly from RCL
                 s.insertion(m)
                 P_remaining.remove(m[0])
-            while P_remaining and not (i in P_remaining):
+            while P_remaining and not (i in P_remaining) and i < nOrders:
                 i = i + 1
 
         local_search(s)
@@ -184,7 +184,7 @@ def main():
     print("This is the main function.")
 
     # Call the auxiliary function
-    grasp(iterations=10,alpha=0.75)
+    grasp(iterations=20,alpha=0.75)
 
 
 # Call the main function if the script is executed
