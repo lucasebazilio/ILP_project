@@ -1,13 +1,13 @@
 import random
 from collections import Counter
 
-nOrders = 4
+nOrders = 5
 nSlots = 12
-p = [75.0, 75.0, 100.0, 100.0]
-l = [2, 3, 7, 12]
-c = [30.0, 15.0, 120.0, 30.0]
-mindi = [2, 5, 7, 7]
-maxdi = [4, 7, 8, 12]
+p = [100.0, 100.0, 99.0, 99.0, 10.0]
+l = [6, 6, 4, 4, 4]
+c = [30.0, 30.0, 30.0, 30.0, 30.0]
+mindi = [6, 11, 4, 8, 12]
+maxdi = [6, 12, 4, 8, 12]
 maxsur = 30
 sorted_indices = sorted(range(len(p)), key=lambda k: p[k], reverse=True) # We sort P , p1 >= p2 >= ... >= pn
 
@@ -22,7 +22,7 @@ class Sol:
         # Element is a tuple {i,f} where we insert order i with finishing time j
         self.S.add(element)
         i, f = element
-        for k in range(f - l[i] + 1, f + 1):
+        for k in range(f - l[i], f):
             self.used_capacities[k] += c[i]
         self.profit += p[i]
 
@@ -31,7 +31,7 @@ class Sol:
         if self.exists(element):
             self.S.remove(element)
             i, f = element
-            for k in range(f - l[i] + 1, f + 1):
+            for k in range(f - l[i], f):
                 self.used_capacities[k] -= c[i]
             self.profit -= p[i]
 
@@ -44,7 +44,7 @@ class Sol:
             return False
 
     def evalSol(self, i):
-        j = mindi[i] - l[i] + 1
+        j = mindi[i] - l[i] #+ 1
         k = l[i]
 
         while j + k - 1 <= maxdi[i] and k > 0:
@@ -59,7 +59,7 @@ class Sol:
 
 
     def isFeasible(self, i):
-        j = mindi[i] - l[i] + 1
+        j = mindi[i] - l[i]
         k = l[i]
 
         while j + k - 1 <= maxdi[i] and k > 0:
@@ -136,45 +136,48 @@ def grasp(iterations,alpha):
 
     best = greedy()
     local_search(best)
+    count = 0
+    while (count != iterations):
+        count = count + 1
+        s = Sol()
+        i = 0
+        P_remaining = set(range(nOrders)) # set of indices of remaining profits to consider
+        while P_remaining:
+            RCL = set()
+            p_cota = p[sorted_indices[-1]] + alpha*(p[sorted_indices[i]]-p[sorted_indices[-1]])
+            j = i
+            while P_remaining and p[sorted_indices[j]] >= p_cota:
+                k,f = s.isFeasible(j)
+                #print("is FEASIBLE K,F",(k,f))
+                #print("j:",j)
+                if k != -1:
+                    RCL.add((j,f))
+                    j = j + 1
+                else:
+                    if j in P_remaining: P_remaining.remove(j)
+                while P_remaining and not (j in P_remaining): j = j + 1
+            if RCL:
+                m = random.choice(tuple(RCL)) # choose an element randomly from RCL
+                s.insertion(m)
+                P_remaining.remove(m[0])
+            while P_remaining and not (i in P_remaining):
+                i = i + 1
 
-    s = Sol()
-    i = 0
-    P_remaining = set(range(nOrders)) # set of indices of remaining profits to consider
-    while P_remaining:
+        local_search(s)
 
-        RCL = set()
-        p_cota = sorted_indices[-1] + alpha*(sorted_indices[i]-sorted_indices[-1])
-        j = i
-        while sorted_indices[j] >= p_cota:
-            k,f = s.isFeasible(j)
-            #print("is FEASIBLE K,F",(k,f))
-            #print("j:",j)
-            if k != -1:
-                RCL.add((j,f))
-                j = j + 1
+        if s.profit > best.profit:
+            best = s.copy()
 
-            else:
-                P_remaining.remove(j)
-            while not (j in P_remaining): j = j + 1
-        if RCL:
-            print("llego")
-            m = random.choice(tuple(RCL)) # choose an element randomly from RCL
-            s.insertion(m)
-            P_remaining.remove(m[0])
-        while not (i in P_remaining):
-            print(" saltos de i ")
-            i = i +1
+        # Print or use the resulting set S from the best solution
+        print("GRASP: Resulting set S:", best.S)
+        print("GRASP: Profit", best.profit)
+        print("GRASP: Used capacities", best.used_capacities)
 
-    local_search(s)
 
-    if s.profit > best.profit:
-        best = s.copy()
-
-    print("S.profit = ", s.profit)
     # Print or use the resulting set S from the best solution
-    print("GRASP: Resulting set S:", best)
-    print("GRASP: Profit", best.profit)
-    print("GRASP: Used capacities", best.used_capacities)
+    print("FINAL GRASP: Resulting set S:", best.S)
+    print("FINAL GRASP: Profit", best.profit)
+    print("FINAL GRASP: Used capacities", best.used_capacities)
 
 
 
