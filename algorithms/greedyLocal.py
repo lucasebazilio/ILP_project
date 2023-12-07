@@ -26,9 +26,9 @@ def greedy_local():
             p_old = s.profit
 
     # Print or use the resulting set S
-    print("GL:Resulting set S:", sol_instance.S)
-    print("GL:profit ", sol_instance.profit)
-    print("GL:used cap: ", sol_instance.used_capacities)
+    print("GL:Resulting set S:", s.S)
+    print("GL:profit ", s.profit)
+    print("GL:used cap: ", s.used_capacities)
 
 
 def greedy():
