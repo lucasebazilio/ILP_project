@@ -1,33 +1,17 @@
 import random
 from collections import Counter
-import configparser
-from configparser import ConfigParser, ExtendedInterpolation
 from solution import Sol
+from input_initialization import initialize_input
 
-config = configparser.ConfigParser()
-config.read('sampleInstance.dat')
+# Specify your .dat file
+dat_file = 'instance_n200_t12.dat'
 
-# Access values using the section and option
-nOrders = config.getint('Values', 'nOrders')
-nSlots = config.getint('Values', 'nSlots')
-p = config.get('Values', 'p')
-l = config.get('Values', 'l')
-c = config.get('Values', 'c')
-mindi = config.get('Values', 'mindi')
-maxdi = config.get('Values', 'maxdi')
-maxsur = config.getfloat('Values', 'maxsur')
-
-# Parse string lists into actual lists
-p = [float(val) for val in p.strip('[]').split(',')]
-l = [int(val) for val in l.strip('[]').split(',')]
-c = [float(val) for val in c.strip('[]').split(',')]
-mindi = [int(val) for val in mindi.strip('[]').split(',')]
-maxdi = [int(val) for val in maxdi.strip('[]').split(',')]
+# Initialize input
+nOrders, nSlots, p, l, c, mindi, maxdi, maxsur = initialize_input(dat_file)
 
 sorted_indices = sorted(range(len(p)), key=lambda k: p[k], reverse=True)  # We sort P , p1 >= p2 >= ... >= pn
 # Create an instance of Sol with parameters
 sol_instance = Sol(nOrders, nSlots, p, l, c, mindi, maxdi, maxsur)
-
 
 
 def greedy_local():
