@@ -4,7 +4,7 @@ from solution import Sol
 from input_initialization import initialize_input
 
 # Specify your .dat file
-dat_file = 'instance_n200_t12.dat'
+dat_file = 'instancesPython/instance_n15000_t12_py.dat'
 
 # Initialize input
 nOrders, nSlots, p, l, c, mindi, maxdi, maxsur = initialize_input(dat_file)
@@ -14,34 +14,17 @@ sorted_indices = sorted(range(len(p)), key=lambda k: p[k], reverse=True)  # We s
 sol_instance = Sol(nOrders, nSlots, p, l, c, mindi, maxdi, maxsur)
 
 
-def greedy_local():
-    s_old = greedy()
-    r_indices = s_old.compute_R_indices()
-    p_old = s_old.profit
-
-    for (i, f) in s_old.S:
-        s = s_old.copy()
-        s.deletion((i, f))
-        for j in r_indices:
-            s.evalSol(j)
-        if (p_old < s.profit):
-            s_old = s.copy()
-            p_old = s.profit
-
-    # Print or use the resulting set S
-    print("GL:Resulting set S:", s.S)
-    print("GL:profit ", s.profit)
-    print("GL:used cap: ", s.used_capacities)
-
 
 import random
 
 def greedy():
 
     #print(p_sorted)
+    s = Sol(nOrders,nSlots,p,l,c,mindi,maxdi,maxsur)
+
     for i in sorted_indices:
-        sol_instance.evalSol(i)
-    return sol_instance
+        s.evalSol(i)
+    return s
 
 def local_search(solution):
     r_indices = solution.compute_R_indices()
@@ -61,6 +44,7 @@ def grasp(iterations,alpha):
     best = greedy()
     local_search(best)
     for count in range(iterations):
+        s = Sol(nOrders,nSlots,p,l,c,mindi,maxdi,maxsur)
         i = 0
         P_remaining = set(range(nOrders)) # set of indices of remaining profits to consider
         while P_remaining and i<nOrders:
@@ -68,7 +52,7 @@ def grasp(iterations,alpha):
             p_cota = p[sorted_indices[-1]] + alpha*(p[sorted_indices[i]]-p[sorted_indices[-1]])
             j = i
             while P_remaining and j < nOrders and p[sorted_indices[j]] >= p_cota:
-                k,f = sol_instance.isFeasible(j)
+                k,f = s.isFeasible(j)
                 #print("is FEASIBLE K,F",(k,f))
                 #print("j:",j)
                 if k != -1:
@@ -79,15 +63,15 @@ def grasp(iterations,alpha):
                 while P_remaining and not (j in P_remaining) and j < nOrders: j = j + 1
             if RCL:
                 m = random.choice(tuple(RCL)) # choose an element randomly from RCL
-                sol_instance.insertion(m)
+                s.insertion(m)
                 P_remaining.remove(m[0])
             while P_remaining and not (i in P_remaining) and i < nOrders:
                 i = i + 1
 
-        local_search(sol_instance)
+        local_search(s)
 
-        if sol_instance.profit > best.profit:
-            best = sol_instance.copy()
+        if s.profit > best.profit:
+            best = s.copy()
 
         # Print or use the resulting set S from the best solution
         print("GRASP", count,": Resulting set S:", best.S)
@@ -107,7 +91,7 @@ def main():
     print("This is the main function.")
 
     # Call the auxiliary function
-    grasp(iterations=20,alpha=0.75)
+    grasp(iterations=100,alpha=0.3)
 
 
 # Call the main function if the script is executed
