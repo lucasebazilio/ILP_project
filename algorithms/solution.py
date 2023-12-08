@@ -1,4 +1,3 @@
-# solution.py
 from collections import Counter
 
 class Sol:
@@ -17,6 +16,7 @@ class Sol:
 
     def insertion(self, element):
         # Element is a tuple {i,f} where we insert order i with finishing time j
+        i, f = element
         self.S.add(element)
         i, f = element
         for k in range(f - self.l[i], f):
@@ -41,6 +41,9 @@ class Sol:
             return False
 
     def isFeasible(self, i):
+        is_present = [e for e in self.S if e[0] == i]
+        if is_present: return (-1,-1)  # Each order can only be assigned once
+
         j = self.mindi[i] - self.l[i]
         k = self.l[i]
 
