@@ -59,7 +59,7 @@ def grasp(iterations,alpha):
                     RCL.add((j,f))
                     j = j + 1
                 else:
-                    if j in R: R.remove(j)
+                    R.remove(j)
                 if not R: break
                 while not (j in R) and j < nOrders: j = j + 1
             if RCL:
