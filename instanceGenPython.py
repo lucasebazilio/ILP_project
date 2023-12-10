@@ -15,7 +15,7 @@ def generate_instance(file_path, nOrders, nSlots, p, l, c, mindi, maxdi, maxsur)
         file.write(f'maxsur={maxsur}\n')
 
 
-def compute_values(nOrders, nSlots):
+def compute_values(nOrders, nSlots, id):
     p = [random.uniform(0, 200) for _ in range(nOrders)]
     l = [random.randint(1, nSlots) for _ in range(nOrders)]
     # maxsur = random.uniform(10.0, 80.0)
@@ -24,20 +24,20 @@ def compute_values(nOrders, nSlots):
     mindi = [random.randint(l[i], nSlots) for i in range(nOrders)]
     maxdi = [random.randint(mindi[i], nSlots) for i in range(nOrders)]
 
-    instances_folder = 'instances'
+    instances_folder = 'algorithms/adriatuning'
     if not os.path.exists(instances_folder):
         os.makedirs(instances_folder)
 
-    file_name = f'instance_n{nOrders}_t{nSlots}.dat'
+    file_name = f'tunin_n{nOrders}_i{id}.dat'
     file_path = os.path.join(instances_folder, file_name)
 
     generate_instance(file_path, nOrders, nSlots, p, l, c, mindi, maxdi, maxsur)
 
 
 def generate_massive(N):
-    for i in range(1, N):
-        compute_values(100 * i, 12)
+    for i in range(1, N+1):
+        compute_values(2500, 12, i)
 
 
 if __name__ == "__main__":
-    compute_values(200,12)
+    generate_massive(100)
