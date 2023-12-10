@@ -58,8 +58,8 @@ def compute_values(nOrders, nSlots):
 
 def generate_massive(N):
     for i in range(1, N):
-        compute_values(100 * i, 12)
+        compute_values(7900 + 100 * i, 12)
 
 
 if __name__ == "__main__":
-    compute_values(2000, 12)
+    generate_massive(22)
