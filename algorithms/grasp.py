@@ -4,7 +4,7 @@ from solution import Sol
 from input_initialization import initialize_input
 
 # Specify your .dat file
-dat_file = 'instancesPython/instance_n15000_t12_py.dat'
+dat_file = 'instancesPython\instance_n200_t12_py.dat'
 
 # Initialize input
 nOrders, nSlots, p, l, c, mindi, maxdi, maxsur = initialize_input(dat_file)

@@ -1,9 +1,11 @@
 import configparser
+import os
 from configparser import ConfigParser, ExtendedInterpolation
 
 def initialize_input(dat_file):
     config = configparser.ConfigParser()
-    config.read(dat_file)
+    file_path = os.path.join(os.path.dirname(__file__), dat_file)
+    config.read(file_path)
 
     # Access values using the section and option
     nOrders = config.getint('Values', 'nOrders')

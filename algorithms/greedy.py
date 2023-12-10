@@ -3,9 +3,9 @@ from collections import Counter
 from input_initialization import initialize_input
 
 # Specify your .dat file
-dat_file = 'instance_n200_t12.dat'
+dat_file = 'instancesPython\instance_n200_t12_py.dat'
 
-# Initialize input
+# Initialize inputg
 nOrders, nSlots, p, l, c, mindi, maxdi, maxsur = initialize_input(dat_file)
 
 sol_instance = Sol(nOrders, nSlots, p, l, c, mindi, maxdi, maxsur)
@@ -35,14 +35,5 @@ def greedy():
     print("used cap: ",sol_instance.used_capacities)
 
 
-def main():
-    # Code for the main function
-    print("This is the main function.")
-
-    # Call the auxiliary function
-    greedy()
-
-
-# Call the main function if the script is executed
 if __name__ == "__main__":
-    main()
+    greedy()
