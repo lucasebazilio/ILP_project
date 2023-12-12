@@ -3,7 +3,7 @@ from collections import Counter
 from input_initialization import initialize_input
 
 # Specify your .dat file
-dat_file = 'instancesPython\instance_n200_t12_py.dat'
+dat_file = 'instancesPython\instance_n1500_t12_py.dat'
 
 # Initialize inputg
 nOrders, nSlots, p, l, c, mindi, maxdi, maxsur = initialize_input(dat_file)

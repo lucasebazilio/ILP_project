@@ -4,7 +4,7 @@ from solution import Sol
 from input_initialization import initialize_input
 
 # Specify your .dat file
-dat_file = 'instancesPython\instance_n200_t12_py.dat'
+dat_file = 'instancesPython\instance_n2500_t12_py.dat'
 
 # Initialize input
 nOrders, nSlots, p, l, c, mindi, maxdi, maxsur = initialize_input(dat_file)
@@ -18,13 +18,22 @@ sol_instance = Sol(nOrders, nSlots, p, l, c, mindi, maxdi, maxsur)
 import random
 
 def greedy():
-
     #print(p_sorted)
-    s = Sol(nOrders,nSlots,p,l,c,mindi,maxdi,maxsur)
-
     for i in sorted_indices:
-        s.evalSol(i)
-    return s
+        j = mindi[i] - l[i]
+        k = l[i]
+        while j + k <= maxdi[i] and k > 0:
+            if(j == nSlots): print(j + k - 1, " <= ", maxdi[i])
+            if sol_instance.used_capacities[j] + c[i] <= maxsur:
+                j += 1
+                k -= 1
+            else:
+                j += 1
+                k = l[i]
+
+        if k == 0:
+            sol_instance.insertion((i, j))
+    return sol_instance
 
 def local_search(solution):
     r_indices = solution.compute_R_indices()
@@ -38,11 +47,12 @@ def local_search(solution):
         if p_old < s.profit:
             solution = s.copy()
             p_old = s.profit
+    return solution
 
 def grasp(iterations,alpha):
 
     best = greedy()
-    local_search(best)
+    best = local_search(best)
     for count in range(iterations):
         s = Sol(nOrders,nSlots,p,l,c,mindi,maxdi,maxsur)
         i = 0
@@ -69,7 +79,7 @@ def grasp(iterations,alpha):
             while not (i in R) and i < nOrders:
                 i = i + 1
 
-        local_search(s)
+        s = local_search(s)
 
         if s.profit > best.profit:
             best = s.copy()
@@ -92,7 +102,7 @@ def main():
     print("This is the main function.")
 
     # Call the auxiliary function
-    grasp(iterations=100,alpha=0.3)
+    grasp(iterations=100,alpha=0.7)
 
 
 # Call the main function if the script is executed
