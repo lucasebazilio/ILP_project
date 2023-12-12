@@ -17,11 +17,12 @@ class Sol:
     def insertion(self, element):
         # Element is a tuple {i,f} where we insert order i with finishing time j
         i, f = element
-        self.S.add(element)
-        i, f = element
-        for k in range(f - self.l[i], f):
-            self.used_capacities[k] += self.c[i]
-        self.profit += self.p[i]
+        if not any(existing_i == i for existing_i, _ in self.S):
+            self.S.add(element)
+            i, f = element
+            for k in range(f - self.l[i], f):
+                self.used_capacities[k] += self.c[i]
+            self.profit += self.p[i]
 
     def deletion(self, element):
         # element is a tuple {i,f} where we insert order i with finishing time j
