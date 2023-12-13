@@ -54,7 +54,7 @@ def greedy(nOrders,nSlots,p,l,c,mindi,maxdi,maxsur):
 
 def main():
     with open('comparative_Greedy.csv', 'w', newline='') as csvfile:
-        fieldnames = ['nOrders', 'profit', 'time']
+        fieldnames = ['nOrders', 'Profit', 'Time']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
 
@@ -67,7 +67,7 @@ def main():
             execution_time = time.time() - start_time
 
             # Write results to CSV
-            writer.writerow({'nOrders': nOrders, 'profit': profit, 'time': execution_time})
+            writer.writerow({'nOrders': nOrders, 'Profit': profit, 'Time': execution_time})
 
 
 
