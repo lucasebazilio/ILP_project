@@ -5,7 +5,7 @@
  *********************************************/
 
 main {
-	var src = new IloOplModelSource("Project2.mod");
+	var src = new IloOplModelSource("Project.mod");
 	var def = new IloOplModelDefinition(src);
 	var cplex = new IloCplex();
 	var ofile = new IloOplOutputFile("myout.csv");
@@ -23,7 +23,7 @@ main {
 		start = cplex.getCplexTime();
 		if (cplex.solve()) {
 		  /*
-			ofile.writeln("Optimal Sol. with profit " + cplex.getObjValue() + "€");
+			ofile.writeln("Optimal Sol. with profit " + cplex.getObjValue() + "ï¿½");
 			for (var i=1;i<=model.nOrders;i++) {
 				if (model.y[i] == 1) ofile.writeln("{"+i+","+model.f[i],"}");
 			}
