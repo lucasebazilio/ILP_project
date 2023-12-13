@@ -102,7 +102,7 @@ def main():
     print("This is the main function.")
 
     # Call the auxiliary function
-    grasp(iterations=100,alpha=0.7)
+    grasp(iterations=20,alpha=0.2)
 
 
 # Call the main function if the script is executed
