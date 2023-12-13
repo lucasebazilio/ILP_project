@@ -102,7 +102,7 @@ def main():
             nOrders, nSlots, p, l, c, mindi, maxdi, maxsur = initialize_dat(dat_file)
 
             start_time = time.time()
-            profit = grasp(iterations=20,alpha=0.7,nSlots=nSlots,nOrders=nOrders,p=p,l=l,c=c,mindi=mindi,maxdi=maxdi,maxsur=maxsur)
+            profit = grasp(iterations=60,alpha=0.15,nSlots=nSlots,nOrders=nOrders,p=p,l=l,c=c,mindi=mindi,maxdi=maxdi,maxsur=maxsur)
             execution_time = time.time() - start_time
 
             # Write results to CSV
