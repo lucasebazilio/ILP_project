@@ -54,10 +54,12 @@ def local_search(solution):
             solution = s.copy()
             p_old = s.profit
 
+    return solution
+
 def grasp(iterations,alpha,nOrders,nSlots,p,l,c,mindi,maxdi,maxsur):
 
     best,sorted_indices = greedy(nOrders,nSlots,p,l,c,mindi,maxdi,maxsur)
-    local_search(best)
+    best = local_search(best)
     for _ in range(iterations):
         s = Sol(nOrders,nSlots,p,l,c,mindi,maxdi,maxsur)
         i = 0
@@ -82,7 +84,7 @@ def grasp(iterations,alpha,nOrders,nSlots,p,l,c,mindi,maxdi,maxsur):
             while not (i in R) and i < nOrders:
                 i = i + 1
 
-        local_search(s)
+        s = local_search(s)
 
         if s.profit > best.profit:
             best = s.copy()
@@ -102,7 +104,7 @@ def main():
             nOrders, nSlots, p, l, c, mindi, maxdi, maxsur = initialize_dat(dat_file)
 
             start_time = time.time()
-            profit = grasp(iterations=60,alpha=0.15,nSlots=nSlots,nOrders=nOrders,p=p,l=l,c=c,mindi=mindi,maxdi=maxdi,maxsur=maxsur)
+            profit = grasp(iterations=20,alpha=0.75,nSlots=nSlots,nOrders=nOrders,p=p,l=l,c=c,mindi=mindi,maxdi=maxdi,maxsur=maxsur)
             execution_time = time.time() - start_time
 
             # Write results to CSV
