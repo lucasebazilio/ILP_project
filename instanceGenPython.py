@@ -24,7 +24,7 @@ def compute_values(nOrders, nSlots, id):
     mindi = [random.randint(l[i], nSlots) for i in range(nOrders)]
     maxdi = [random.randint(mindi[i], nSlots) for i in range(nOrders)]
 
-    instances_folder = 'algorithms/adriatuning2'
+    instances_folder = 'instances'
     if not os.path.exists(instances_folder):
         os.makedirs(instances_folder)
 
