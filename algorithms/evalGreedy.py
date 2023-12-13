@@ -53,7 +53,7 @@ def greedy(nOrders,nSlots,p,l,c,mindi,maxdi,maxsur):
 
 
 def main():
-    with open('comparative_Greedy', 'w', newline='') as csvfile:
+    with open('comparative_Greedy.csv', 'w', newline='') as csvfile:
         fieldnames = ['nOrders', 'profit', 'time']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
